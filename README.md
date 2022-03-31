@@ -5,12 +5,12 @@ simple script to colorize console output.
 
 ## install
 ```sh
-npm i
-tsc
+npm i https://github.com/tschlumpf/color.git
 ```
 ## Usage
 ```Typescript
-import color from "patch/to/color";
+import Color from "colorize-string";
+
 
 console.log(Color.black("black"));
 console.log(Color.red("red"));
