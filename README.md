@@ -35,5 +35,5 @@ console.log(Color.textMode("bold", { mode: "bold" }));
 console.log(Color.textMode("faint", { mode: "faint" }));
 
 console.log(Color.black("black text, cyan background, unterline, italic", { bg: "cyan", textMode: ["italic", "underline"] }));
-console.log(Color.red("red text, cyan background, unterline", { bg: "cyan", mode: ["underline"] }));
+console.log(Color.red("red text, cyan background, unterline", { bg: "cyan", mode: "underline" }));
 ```
