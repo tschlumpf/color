@@ -1,11 +1,16 @@
 {
-  "name": "color",
+  "name": "colorize-string",
   "version": "1.0.0",
   "description": "colorize console output",
-  "main": "dist/index.js",
+  "main": "dist/color.js",
   "scripts": {
     "test": "node dist/tests.js"
   },
+  "files": [
+    "*",
+    "dist/*"
+  ],
+  "types": "dist/color.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tschlumpf/color.git"
