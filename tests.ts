@@ -1,11 +1,4 @@
-# Color
-simple script to colorize console output.
-* [available colors](https://en.wikipedia.org/wiki/ANSI_escape_code#Colors)
-* [available text modes](https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters) 1-9
-
-## Usage
-```Typescript
-import color from "patch/to/color";
+import Color from "./color";
 
 console.log(Color.black("black"));
 console.log(Color.red("red"));
@@ -29,6 +22,5 @@ console.log(Color.textMode("italic", { mode: "italic" }));
 console.log(Color.textMode("bold", { mode: "bold" }));
 console.log(Color.textMode("faint", { mode: "faint" }));
 
-console.log(Color.black("black text, cyan background, unterline, italic", { bg: "cyan", textMode: ["italic", "underline"] }));
+console.log(Color.black("black text, cyan background, unterline, italic, bold", { bg: "cyan", mode: ["bold", "italic", "underline"] }));
 console.log(Color.red("red text, cyan background, unterline", { bg: "cyan", mode: ["underline"] }));
-```

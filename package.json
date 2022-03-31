@@ -1,0 +1,24 @@
+{
+  "name": "color",
+  "version": "1.0.0",
+  "description": "colorize console output",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "node dist/tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tschlumpf/color.git"
+  },
+  "author": "tschlumpf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tschlumpf/color/issues"
+  },
+  "homepage": "https://github.com/tschlumpf/color#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "eslint": "^8.12.0"
+  }
+}
