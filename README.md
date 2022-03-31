@@ -3,6 +3,11 @@ simple script to colorize console output.
 * [available colors](https://en.wikipedia.org/wiki/ANSI_escape_code#Colors)
 * [available text modes](https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters) 1-9
 
+## install
+```sh
+npm i
+tsc
+```
 ## Usage
 ```Typescript
 import color from "patch/to/color";
