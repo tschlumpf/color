@@ -2,15 +2,25 @@ type ColorValues = { fg: string, bg: string }
 type ColorStrings = "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white" |
   "brightBlack" | "brightRed" | "brightGreen" | "brightYellow" | "brightBlue" | "brightMagenta" | "brightCyan" | "brightWhite" | "default";
 type TextMode = "italic" | "underline" | "blinkingSlow" | "blinkingFast" | "reverse" | "hide" | "cross-out" | "bold" | "faint";
-type ColorFunction = (str: string, options?: Partial<Options>) => string;
+type ColorFunction = (str: string, options?: Partial<OptionsColor>) => string;
 
-type Options = {
+type OptionsColor = {
   bg: ColorStrings,
   mode: TextMode[] | TextMode,
 }
 
+type InspectItem = { fg: ColorStrings, style: Partial<OptionsColor> | undefined }
+
+type OptionsInspect = {
+  number: Partial<InspectItem>,
+  string: Partial<InspectItem>,
+  hex: Partial<InspectItem>,
+  bin: Partial<InspectItem>
+}
 
 interface ColorInterface {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  inspect: (input: unknown, options?: Partial<OptionsInspect>) => string,
   black: ColorFunction,
   red: ColorFunction,
   green: ColorFunction,
@@ -60,7 +70,7 @@ TEXT_MODE.set("reverse", 7);
 TEXT_MODE.set("hide", 8);
 TEXT_MODE.set("cross-out", 9);
 
-function getSequence(color: ColorStrings, options?: Partial<Options>) {
+function getSequence(color: ColorStrings, options?: Partial<OptionsColor>) {
   if (!COLORS.has(color)) throw new Error("Wrong text color!");
 
   let fg = "";
@@ -89,7 +99,7 @@ function getSequence(color: ColorStrings, options?: Partial<Options>) {
   return `\u001B[0${textMode}${bg}${fg}m`;
 }
 
-function getColoredString(str: string, color: ColorStrings, options?: Partial<Options>) {
+function getColoredString(str: string, color: ColorStrings, options?: Partial<OptionsColor>) {
   const endSequ = '\u001B[0m'; //end of sequence
   return `${getSequence(color, options)}${str}${endSequ}`;
 }
@@ -100,7 +110,7 @@ COLORS.forEach((_, key) => {
   Object.defineProperty(colors, key, {
     enumerable: false,
     writable: false,
-    value: function (str: string, options?: Partial<Options>) {
+    value: function (str: string, options?: Partial<OptionsColor>) {
       return getColoredString(str, key, options);
     }
   }
@@ -110,12 +120,66 @@ COLORS.forEach((_, key) => {
 Object.defineProperty(colors, "textMode", {
   enumerable: false,
   writable: false,
-  value: function (str: string, options?: Partial<Options>) {
+  value: function (str: string, options?: Partial<OptionsColor>) {
     if (!options?.bg && !options?.mode) throw new Error("No options given!");
 
     return getColoredString(str, "default", options);
   }
 }
 );
+
+Object.defineProperty(colors, "inspect", {
+  enumerable: false,
+  writable: false,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  value: function (input: unknown, options?: Partial<OptionsInspect>) {
+
+    const defaultOptions: OptionsInspect = {
+      number: { fg: "red", style: undefined },
+      hex: { fg: "cyan", style: undefined },
+      bin: { fg: "yellow", style: undefined },
+      string: { fg: "green", style: undefined },
+      ...options,
+    };
+
+    let str: string;
+
+    switch (typeof input) {
+      case "object":
+        str = JSON.stringify(input, null, 2);
+        break;
+      case "undefined":
+        str = "undefined";
+        break;
+      case "boolean":
+      case "number":
+      case "symbol":
+      case "bigint":
+        str = input.toString();
+        break;
+      case "string":
+        str = input;
+        break;
+      default:
+        throw new Error("unknown type.");
+    }
+
+    const regexStringDouble = /(["][^"^'+]+["])/g;
+    const regexStringSingle = /([\s\n])('[^"^'+]+')/g;
+    const regexNumber = /([+-]?\b[0-9.,+\-_]+\b)/g;
+    const regexHex = /(\b0x[0-9a-fA-F]+\b)/g;
+    const regexBin = /(\b0b[0-1_]+\b)/g;
+
+    return str
+      /* eslint-disable @typescript-eslint/no-non-null-assertion */
+      .replace(regexNumber, this[defaultOptions.number.fg!]("$1", defaultOptions.number.style))
+      .replace(regexHex, this[defaultOptions.hex.fg!]("$1", defaultOptions.hex.style))
+      .replace(regexBin, this[defaultOptions.bin.fg!]("$1", defaultOptions.bin.style))
+      .replace(regexStringDouble, this[defaultOptions.string.fg!]("$1", defaultOptions.string.style))
+      .replace(regexStringSingle, "$1" + this[defaultOptions.string.fg!]("$2", defaultOptions.string.style));
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
+  }
+});
+
 
 export default colors;

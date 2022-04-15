@@ -81,5 +81,52 @@ Object.defineProperty(colors, "textMode", {
         return getColoredString(str, "default", options);
     }
 });
+Object.defineProperty(colors, "inspect", {
+    enumerable: false,
+    writable: false,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    value: function (input, options) {
+        const defaultOptions = {
+            number: { fg: "red", style: undefined },
+            hex: { fg: "cyan", style: undefined },
+            bin: { fg: "yellow", style: undefined },
+            string: { fg: "green", style: undefined },
+            ...options,
+        };
+        let str;
+        switch (typeof input) {
+            case "object":
+                str = JSON.stringify(input, null, 2);
+                break;
+            case "undefined":
+                str = "undefined";
+                break;
+            case "boolean":
+            case "number":
+            case "symbol":
+            case "bigint":
+                str = input.toString();
+                break;
+            case "string":
+                str = input;
+                break;
+            default:
+                throw new Error("unknown type.");
+        }
+        const regexStringDouble = /(["][^"^'+]+["])/g;
+        const regexStringSingle = /([\s\n])('[^"^'+]+')/g;
+        const regexNumber = /([+-]?\b[0-9.,+\-_]+\b)/g;
+        const regexHex = /(\b0x[0-9a-fA-F]+\b)/g;
+        const regexBin = /(\b0b[0-1_]+\b)/g;
+        return str
+            /* eslint-disable @typescript-eslint/no-non-null-assertion */
+            .replace(regexNumber, this[defaultOptions.number.fg]("$1", defaultOptions.number.style))
+            .replace(regexHex, this[defaultOptions.hex.fg]("$1", defaultOptions.hex.style))
+            .replace(regexBin, this[defaultOptions.bin.fg]("$1", defaultOptions.bin.style))
+            .replace(regexStringDouble, this[defaultOptions.string.fg]("$1", defaultOptions.string.style))
+            .replace(regexStringSingle, "$1" + this[defaultOptions.string.fg]("$2", defaultOptions.string.style));
+        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+    }
+});
 exports.default = colors;
 //# sourceMappingURL=color.js.map
