@@ -28,7 +28,7 @@ console.log(Color.inspect(undefined));
 console.log(Color.inspect(BigInt("100000000000000000000000000000000000000000000000")));
 
 console.log("\n\n#################################");
-console.log("colored string")
+console.log("colored string");
 console.log("#################################");
 console.log(Color.black("black"));
 console.log(Color.red("red"));
