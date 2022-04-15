@@ -81,16 +81,37 @@ Object.defineProperty(colors, "textMode", {
         return getColoredString(str, "default", options);
     }
 });
+Object.defineProperty(colors, "setDefaults", {
+    enumerable: false,
+    writable: false,
+    value: function (options) {
+        // if (!options?.bg && !options?.mode) throw new Error("No options given!");
+        this.userSettings = {
+            ...options
+        };
+        // return this;
+    }
+});
+Object.defineProperty(colors, "resetDefaults", {
+    enumerable: false,
+    writable: false,
+    value: function () {
+        // if (!options?.bg && !options?.mode) throw new Error("No options given!");
+        this.userSettings = {};
+        // return this;
+    }
+});
 Object.defineProperty(colors, "inspect", {
     enumerable: false,
     writable: false,
     // eslint-disable-next-line @typescript-eslint/ban-types
     value: function (input, options) {
-        const defaultOptions = {
+        const defaults = {
             number: { fg: "red", style: undefined },
             hex: { fg: "cyan", style: undefined },
             bin: { fg: "yellow", style: undefined },
             string: { fg: "green", style: undefined },
+            ...this.userSettings,
             ...options,
         };
         let str;
@@ -120,11 +141,11 @@ Object.defineProperty(colors, "inspect", {
         const regexBin = /(\b0b[0-1_]+\b)/g;
         return str
             /* eslint-disable @typescript-eslint/no-non-null-assertion */
-            .replace(regexNumber, this[defaultOptions.number.fg]("$1", defaultOptions.number.style))
-            .replace(regexHex, this[defaultOptions.hex.fg]("$1", defaultOptions.hex.style))
-            .replace(regexBin, this[defaultOptions.bin.fg]("$1", defaultOptions.bin.style))
-            .replace(regexStringDouble, this[defaultOptions.string.fg]("$1", defaultOptions.string.style))
-            .replace(regexStringSingle, "$1" + this[defaultOptions.string.fg]("$2", defaultOptions.string.style));
+            .replace(regexNumber, this[defaults.number.fg]("$1", defaults.number.style))
+            .replace(regexHex, this[defaults.hex.fg]("$1", defaults.hex.style))
+            .replace(regexBin, this[defaults.bin.fg]("$1", defaults.bin.style))
+            .replace(regexStringDouble, this[defaults.string.fg]("$1", defaults.string.style))
+            .replace(regexStringSingle, "$1" + this[defaults.string.fg]("$2", defaults.string.style));
         /* eslint-enable @typescript-eslint/no-non-null-assertion */
     }
 });

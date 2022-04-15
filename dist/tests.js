@@ -7,6 +7,20 @@ const color_1 = __importDefault(require("./color"));
 console.log("#################################");
 console.log("fancy colored Strings");
 console.log("#################################");
+// overwrite defaults
+color_1.default.setDefaults({
+    number: {
+        fg: "magenta", style: {
+            mode: "underline"
+        }
+    },
+    hex: { fg: "red", style: undefined },
+    bin: { fg: "yellow", style: undefined },
+    string: { fg: "blue", style: undefined }
+});
+console.log(color_1.default.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
+color_1.default.resetDefaults();
+console.log(color_1.default.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
 console.log(color_1.default.inspect({ info: "custom colors", a: 1, b: 1.1, c: "abcdef", d: "abcdef: j" }, {
     string: {
         fg: "magenta",
@@ -19,7 +33,6 @@ console.log(color_1.default.inspect({ info: "custom colors", a: 1, b: 1.1, c: "a
         }
     }
 }));
-console.log(color_1.default.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
 console.log(color_1.default.inspect("{ a: \"test\", b: 'test', c: 1, d: 'j!'}"));
 console.log(color_1.default.inspect(3.1415));
 console.log(color_1.default.inspect(69));

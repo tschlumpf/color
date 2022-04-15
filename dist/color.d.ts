@@ -17,6 +17,8 @@ declare type OptionsInspect = {
 };
 interface ColorInterface {
     inspect: (input: unknown, options?: Partial<OptionsInspect>) => string;
+    setDefaults: (options?: Partial<OptionsInspect>) => string;
+    resetDefaults: () => void;
     black: ColorFunction;
     red: ColorFunction;
     green: ColorFunction;

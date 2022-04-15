@@ -11,6 +11,18 @@ npm i https://github.com/tschlumpf/color.git
 ```Typescript
 import Color from "colorize-string";
 
+Color.setDefaults({
+  number: {
+    fg: "magenta", style: {
+      mode: "underline"
+    }
+  },
+  hex: { fg: "red", style: undefined },
+  bin: { fg: "yellow", style: undefined },
+  string: { fg: "blue", style: undefined }
+});
+Color.resetDefaults();
+
 console.log(Color.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
 
 console.log(Color.black("black"));

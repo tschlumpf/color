@@ -3,6 +3,22 @@ import Color from "./color";
 console.log("#################################");
 console.log("fancy colored Strings");
 console.log("#################################");
+// overwrite defaults
+Color.setDefaults({
+  number: {
+    fg: "magenta", style: {
+      mode: "underline"
+    }
+  },
+  hex: { fg: "red", style: undefined },
+  bin: { fg: "yellow", style: undefined },
+  string: { fg: "blue", style: undefined }
+});
+console.log(Color.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
+
+Color.resetDefaults();
+console.log(Color.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
+
 console.log(
   Color.inspect({ info: "custom colors", a: 1, b: 1.1, c: "abcdef", d: "abcdef: j" },
     {
@@ -19,7 +35,6 @@ console.log(
     })
 );
 
-console.log(Color.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
 console.log(Color.inspect("{ a: \"test\", b: 'test', c: 1, d: 'j!'}"));
 console.log(Color.inspect(3.1415));
 console.log(Color.inspect(69));
@@ -54,3 +69,4 @@ console.log(Color.textMode("faint", { mode: "faint" }));
 
 console.log(Color.black("black text, cyan background, unterline, italic, bold", { bg: "cyan", mode: ["bold", "italic", "underline"] }));
 console.log(Color.red("red text, cyan background, unterline", { bg: "cyan", mode: "underline" }));
+
