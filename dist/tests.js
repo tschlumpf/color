@@ -16,11 +16,12 @@ color_1.default.setDefaults({
     },
     hex: { fg: "red", style: undefined },
     bin: { fg: "yellow", style: undefined },
+    oct: { fg: "brightGreen", style: undefined },
     string: { fg: "blue", style: undefined }
 });
-console.log(color_1.default.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
+console.log(color_1.default.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011, 0o1234)\nand a new line.\n"));
 color_1.default.resetDefaults();
-console.log(color_1.default.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
+console.log(color_1.default.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011, 0o1234)\nand a new line.\n"));
 console.log(color_1.default.inspect({ info: "custom colors", a: 1, b: 1.1, c: "abcdef", d: "abcdef: j" }, {
     string: {
         fg: "magenta",

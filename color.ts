@@ -15,7 +15,8 @@ type OptionsInspect = {
   number: Partial<InspectItem>,
   string: Partial<InspectItem>,
   hex: Partial<InspectItem>,
-  bin: Partial<InspectItem>
+  bin: Partial<InspectItem>,
+  oct: Partial<InspectItem>
 }
 
 interface ColorInterface {
@@ -146,10 +147,7 @@ Object.defineProperty(colors, "resetDefaults", {
   enumerable: false,
   writable: false,
   value: function () {
-    // if (!options?.bg && !options?.mode) throw new Error("No options given!");
-
     this.userSettings = {};
-    // return this;
   }
 }
 );
@@ -157,13 +155,13 @@ Object.defineProperty(colors, "resetDefaults", {
 Object.defineProperty(colors, "inspect", {
   enumerable: false,
   writable: false,
-  // eslint-disable-next-line @typescript-eslint/ban-types
   value: function (input: unknown, options?: Partial<OptionsInspect>) {
 
     const defaults: OptionsInspect = {
       number: { fg: "red", style: undefined },
-      hex: { fg: "cyan", style: undefined },
-      bin: { fg: "yellow", style: undefined },
+      hex: { fg: "red", style: undefined },
+      bin: { fg: "red", style: undefined },
+      oct: { fg: "red", style: undefined },
       string: { fg: "green", style: undefined },
       ...this.userSettings,
       ...options,
@@ -196,12 +194,14 @@ Object.defineProperty(colors, "inspect", {
     const regexNumber = /([+-]?\b[0-9.,+\-_]+\b)/g;
     const regexHex = /(\b0x[0-9a-fA-F]+\b)/g;
     const regexBin = /(\b0b[0-1_]+\b)/g;
+    const regexOct = /(\b0o[0-7_]+\b)/g;
 
     return str
       /* eslint-disable @typescript-eslint/no-non-null-assertion */
       .replace(regexNumber, this[defaults.number.fg!]("$1", defaults.number.style))
       .replace(regexHex, this[defaults.hex.fg!]("$1", defaults.hex.style))
       .replace(regexBin, this[defaults.bin.fg!]("$1", defaults.bin.style))
+      .replace(regexOct, this[defaults.oct.fg!]("$1", defaults.oct.style))
       .replace(regexStringDouble, this[defaults.string.fg!]("$1", defaults.string.style))
       .replace(regexStringSingle, "$1" + this[defaults.string.fg!]("$2", defaults.string.style));
     /* eslint-enable @typescript-eslint/no-non-null-assertion */

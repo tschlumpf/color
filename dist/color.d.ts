@@ -14,6 +14,7 @@ declare type OptionsInspect = {
     string: Partial<InspectItem>;
     hex: Partial<InspectItem>;
     bin: Partial<InspectItem>;
+    oct: Partial<InspectItem>;
 };
 interface ColorInterface {
     inspect: (input: unknown, options?: Partial<OptionsInspect>) => string;
