@@ -19,7 +19,6 @@ type OptionsInspect = {
 }
 
 interface ColorInterface {
-  // eslint-disable-next-line @typescript-eslint/ban-types
   inspect: (input: unknown, options?: Partial<OptionsInspect>) => string,
   black: ColorFunction,
   red: ColorFunction,
