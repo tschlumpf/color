@@ -11,6 +11,7 @@ npm i https://github.com/tschlumpf/color.git
 ```Typescript
 import Color from "colorize-string";
 
+console.log(Color.inspect("I'am a colored 'String' with numbers (+1, -22, 3, 3.14, 0x12FF, 0xf, 0b100011)\nand a new line.\n"));
 
 console.log(Color.black("black"));
 console.log(Color.red("red"));
